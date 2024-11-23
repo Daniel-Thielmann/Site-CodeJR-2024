@@ -2,13 +2,12 @@ import BlogCard from "@/components/Blog/card";
 import Pagination from "@/components/Pagination";
 import { cardPerPage } from "@/lib/utils";
 import { getBlog, getBlogCount } from "@/server/db/query/blog/query";
+import { headers } from "next/headers"; // Importação de headers para pegar os parâmetros de consulta
 
-interface BlogProps {
-  searchParams: Record<string, string | undefined>;
-}
+export default async function Blog() {
+  const headerParams = await headers(); // Usar await para esperar a promessa ser resolvida
+  const searchParams = Object.fromEntries(headerParams.entries()); // Agora podemos acessar entries()
 
-export default async function Blog({ searchParams }: BlogProps) {
-  // Garantir que o parâmetro "page" seja um número válido
   let page = parseInt(searchParams.page || "1", 10);
   if (isNaN(page) || page < 1) page = 1;
 
