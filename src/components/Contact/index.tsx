@@ -34,8 +34,9 @@ export default function Contact() {
       } else {
         alert("Erro ao enviar mensagem.");
       }
-    } catch (error) {
+    } catch (err) {
       alert("Erro na conexão com o servidor.");
+      console.error(err); // Exibe o erro no console, se necessário
     }
   };
 
