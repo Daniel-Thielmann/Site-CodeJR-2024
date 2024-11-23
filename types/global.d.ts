@@ -3,7 +3,7 @@ import "next";
 
 declare module "next" {
   export interface PageProps {
-    params: { id: string }; // Corrige para um objeto síncrono
+    params: { id: string }; // Tipagem síncrona
     searchParams?: Record<string, string | string[]>;
   }
 }

@@ -2,12 +2,21 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./types"], // Certifique-se de que a pasta `types` está na raiz
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,7 +27,6 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "incremental": true,
-    "strictFunctionTypes": true,
     "plugins": [
       {
         "name": "next"
@@ -30,7 +38,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "types" // Inclua a pasta types aqui
+    "types"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

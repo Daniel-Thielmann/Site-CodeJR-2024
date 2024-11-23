@@ -3,7 +3,7 @@ import { RichText } from "@/components/RichText/rich-text";
 import { getBlog1 } from "@/server/db/query/blog/query";
 import { Metadata } from "next";
 
-// Tipagem para os parâmetros da página
+// Tipagem explícita para os parâmetros
 type PageProps = {
   params: {
     id: string;
@@ -19,12 +19,16 @@ export async function generateMetadata({
 
   return {
     title: blog1.title,
-    description: blog1.description || "Default description.", // Usa description ou valor padrão
+    description: blog1.description || "Default description.",
   };
 }
 
 // Componente principal da página
-export default async function Page({ params }: PageProps) {
+export default async function Page({
+  params,
+}: {
+  params: Awaited<Promise<{ id: string }>>;
+}) {
   const blog1 = await getBlog1(params.id);
 
   return (
