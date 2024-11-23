@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Intro";
+  src: url("../../assets/fonts/IntroDemoBlackCaps.otf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../assets/font/Montserrat-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.texto-base {
+  font-family: "Montserrat", sans-serif;
+}
+.sub-titulo {
+  font-family: "Intro", sans-serif;
+}
+
+.custom-pagination .swiper-pagination-bullet {
+  background-color: #845e33;
+  opacity: 1;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background-color: #5a2976;
+  transform: scale(1.2);
+}
+
+.embla__slide1 {
+  width: calc(33.33% - 1rem);
+}
