@@ -2,7 +2,14 @@ import BlogIndividual from "@/components/BlogIndividual";
 import { RichText } from "@/components/RichText/rich-text";
 import { getBlog1 } from "@/server/db/query/blog/query";
 
-export default async function Page({ params }: { params: { id: string } }) {
+// Tipagem explícita para os parâmetros de rota
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function Page({ params }: PageProps) {
   const blog1 = await getBlog1(params.id);
   console.log(blog1);
 
