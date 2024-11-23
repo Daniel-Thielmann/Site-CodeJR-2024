@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import { cardPerPage } from "@/lib/utils";
 import { ElementNode } from "@graphcms/rich-text-types";
 
-type blogQuery = {
+// Tipo para a estrutura de um blog
+type BlogQuery = {
   id: string;
   title: string;
   image: {
@@ -18,7 +19,10 @@ type blogQuery = {
     };
   };
   date: string;
+  description?: string; // Propriedade opcional
 };
+
+// Query para buscar blogs paginados
 const GET_BLOG = gql`
   query Blog($skip: Int, $cardPerPage: Int!) {
     blogs(skip: $skip, first: $cardPerPage) {
@@ -32,6 +36,7 @@ const GET_BLOG = gql`
   }
 `;
 
+// Query para contar blogs
 const GET_BLOG_COUNT = gql`
   query BlogCount {
     blogsConnection {
@@ -42,6 +47,7 @@ const GET_BLOG_COUNT = gql`
   }
 `;
 
+// Query para buscar um blog específico
 const GET_BLOG1 = gql`
   query Blog($id: ID!) {
     blog(where: { id: $id }) {
@@ -55,11 +61,13 @@ const GET_BLOG1 = gql`
         raw
         text
       }
+      description // Adicionamos esta linha para buscar a descrição
     }
   }
 `;
 
-export async function getBlog(skip: number = 0): Promise<blogQuery[]> {
+// Função para buscar uma lista de blogs
+export async function getBlog(skip: number = 0): Promise<BlogQuery[]> {
   try {
     const client = getClient();
     const { data } = await client.query({
@@ -75,10 +83,12 @@ export async function getBlog(skip: number = 0): Promise<blogQuery[]> {
     });
     return data.blogs;
   } catch (error) {
-    console.error("Error fetching blog", error);
+    console.error("Error fetching blogs:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }
+
+// Função para buscar o total de blogs
 export async function getBlogCount(): Promise<number> {
   try {
     const client = getClient();
@@ -94,12 +104,13 @@ export async function getBlogCount(): Promise<number> {
     });
     return data.blogsConnection.aggregate.count || 0;
   } catch (error) {
-    console.error("Error fetching contador", error);
+    console.error("Error fetching blog count:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }
 
-export async function getBlog1(id: string): Promise<blogQuery> {
+// Função para buscar um blog específico
+export async function getBlog1(id: string): Promise<BlogQuery> {
   try {
     const client = getClient();
     const { data } = await client.query({
@@ -113,9 +124,15 @@ export async function getBlog1(id: string): Promise<blogQuery> {
         },
       },
     });
+
+    // Retorna o blog com verificação para evitar dados inválidos
+    if (!data.blog) {
+      throw new Error("Blog not found");
+    }
+
     return data.blog;
   } catch (error) {
-    console.error("Error fetching blog", error);
+    console.error("Error fetching blog:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }

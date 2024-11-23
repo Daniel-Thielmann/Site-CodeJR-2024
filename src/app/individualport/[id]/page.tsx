@@ -8,12 +8,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div>
-      <VisIndividual 
-        name={portfolio1.name} 
-        description={<RichText content={portfolio1.description.raw} />}                
-        empresa={portfolio1.empresa} 
-        image={portfolio1.imagem.url} 
-        gerente={portfolio1.gerentes} 
+      <VisIndividual
+        name={portfolio1.name}
+        description={<RichText content={portfolio1.description.raw} />}
+        empresa={portfolio1.empresa}
+        image={portfolio1.imagem.url}
+        gerente={portfolio1.gerentes}
         projetistas={portfolio1.projetistas}
       />
     </div>

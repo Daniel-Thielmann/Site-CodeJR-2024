@@ -1,29 +1,36 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./types"], // Certifique-se de que a pasta `types` está na raiz
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node", // Mudado de "bundler" para "node"
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "moduleResolution": "node",
     "incremental": true,
+    "strictFunctionTypes": true,
     "plugins": [
       {
         "name": "next"
       }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "target": "ESNext", // Alterado para ESNext para mais suporte a recursos modernos
-    "strictFunctionTypes": true, // Adicionado para melhorar a verificação de tipos de funções
-    "baseUrl": "./" // Adicionado para resolver problemas com importações
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "types" // Inclua a pasta types aqui
+  ],
   "exclude": ["node_modules"]
 }
