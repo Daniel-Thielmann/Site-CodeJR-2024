@@ -3,11 +3,12 @@ import Pagination from "@/components/Pagination";
 import { cardPerPage } from "@/lib/utils";
 import { getBlog, getBlogCount } from "@/server/db/query/blog/query";
 
-export default async function Blog({
-  searchParams,
-}: {
+interface BlogProps {
   searchParams: Record<string, string | undefined>;
-}) {
+}
+
+export default async function Blog({ searchParams }: BlogProps) {
+  // Garantir que o parâmetro "page" seja um número válido
   let page = parseInt(searchParams.page || "1", 10);
   if (isNaN(page) || page < 1) page = 1;
 

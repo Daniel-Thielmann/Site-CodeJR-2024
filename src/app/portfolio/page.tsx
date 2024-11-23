@@ -6,11 +6,12 @@ import {
   getPortifolioCount,
 } from "@/server/db/query/portifolio/query";
 
-export default async function Portfolio({
-  searchParams,
-}: {
+interface PortfolioProps {
   searchParams: Record<string, string | undefined>;
-}) {
+}
+
+export default async function Portfolio({ searchParams }: PortfolioProps) {
+  // Garantir que o parâmetro "page" seja um número válido
   let page = parseInt(searchParams.page || "1", 10);
   if (isNaN(page) || page < 1) page = 1;
 
