@@ -7,15 +7,13 @@ import {
 } from "@/server/db/query/portifolio/query";
 
 interface PortfolioProps {
-  searchParams: Record<string, string | undefined>;
+  searchParams?: Record<string, string | undefined>; // Torne opcional
 }
 
 export default async function Portfolio({ searchParams }: PortfolioProps) {
   // Garantir que o parâmetro "page" seja um número válido
-  let page = parseInt(searchParams.page || "1", 10);
-  if (isNaN(page) || page < 1) page = 1;
-
-  const offset = (page - 1) * cardPerPage;
+  const page = parseInt(searchParams?.page || "1", 10);
+  const offset = (isNaN(page) || page < 1 ? 0 : page - 1) * cardPerPage;
 
   const [portifolio, portifolioCount] = await Promise.all([
     getPortifolio(offset),

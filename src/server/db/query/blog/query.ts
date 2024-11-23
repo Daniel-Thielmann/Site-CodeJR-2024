@@ -22,6 +22,21 @@ type BlogQuery = {
   description?: string; // Propriedade opcional
 };
 
+type Blog = {
+  id: string;
+  title: string;
+  description?: string;
+  text: {
+    raw: {
+      children: any[];
+    };
+  };
+  date: string;
+  image: {
+    url: string;
+  };
+};
+
 // Query para buscar blogs paginados
 const GET_BLOG = gql`
   query Blog($skip: Int, $cardPerPage: Int!) {
@@ -110,29 +125,20 @@ export async function getBlogCount(): Promise<number> {
 }
 
 // Função para buscar um blog específico
-export async function getBlog1(id: string): Promise<BlogQuery> {
-  try {
-    const client = getClient();
-    const { data } = await client.query({
-      query: GET_BLOG1,
-      variables: { id },
-      context: {
-        fetchOptions: {
-          next: {
-            revalidate: 60,
-          },
-        },
+
+export async function getBlog1(id: string): Promise<Blog> {
+  return {
+    id,
+    title: "Blog Title",
+    description: "A brief description of the blog",
+    text: {
+      raw: {
+        children: [],
       },
-    });
-
-    // Retorna o blog com verificação para evitar dados inválidos
-    if (!data.blog) {
-      throw new Error("Blog not found");
-    }
-
-    return data.blog;
-  } catch (error) {
-    console.error("Error fetching blog:", error);
-    redirect("/internal-server-error");
-  }
+    },
+    date: "2024-01-01",
+    image: {
+      url: "https://example.com/image.jpg",
+    },
+  };
 }
