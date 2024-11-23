@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
 import { getClient } from "../../apollo-client";
 import { redirect } from "next/navigation";
 import { cardPerPage } from "@/lib/utils";
-import { ElementNode } from "@graphcms/rich-text-types"
+import { ElementNode } from "@graphcms/rich-text-types";
 
 type blogQuery = {
   id: string;
@@ -18,13 +18,6 @@ type blogQuery = {
     };
   };
   date: string;
-};
-type blogCountQuery = {
-  blogsConnection: {
-    aggregate: {
-      count: number;
-    };
-  };
 };
 const GET_BLOG = gql`
   query Blog($skip: Int, $cardPerPage: Int!) {

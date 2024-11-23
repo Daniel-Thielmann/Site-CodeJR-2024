@@ -1,40 +1,41 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 import { BiSolidPhone } from "react-icons/bi";
-import { BsInstagram, BsLinkedin, BsPhone } from "react-icons/bs";
+import { BsInstagram, BsLinkedin } from "react-icons/bs";
 import { MdLocationOn } from "react-icons/md";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('/api/send', {
-        method: 'POST',
+      const response = await fetch("/api/send", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        alert('Mensagem enviada com sucesso!');
+        alert("Mensagem enviada com sucesso!");
       } else {
-        const errorData = await response.json();
-        alert('Erro ao enviar mensagem.');
+        alert("Erro ao enviar mensagem.");
       }
     } catch (error) {
-      alert('Erro na conexão com o servidor.');
+      alert("Erro na conexão com o servidor.");
     }
   };
 
@@ -80,7 +81,6 @@ export default function Contact() {
           >
             Enviar
           </button>
-
         </div>
         <div className="bp-840:col-span-3 flex flex-col gap-10 md:gap-12 bp-840:gap-6">
           <h2 className="text-[#FEFFF5] text-3xl sm:text-4xl md:text-[40px] bp-840:text-[28px] text-center bp-840:leading-7 mt-10 md:mt-12 bp-840:mt-4 uppercase sub-titulo">

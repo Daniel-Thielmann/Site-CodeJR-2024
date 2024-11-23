@@ -1,12 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Montserrat } from "next/font/google";
 import { IoIosArrowDown } from "react-icons/io";
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["200", "400", "500", "600", "700"],
-});
 
 export default function HeroSectionIV() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);

@@ -1,13 +1,7 @@
-import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["300"],
-});
-
-export default function HeroSecationI() {
+export default function HeroSectionI() {
   return (
     <div className="w-full flex justify-center">
       <div className="w-full px-2 sm:px-5 lg:px-0 flex flex-col items-center gap-9 py-[69px] lg:pb-[60px] lg:pt-[82px]">
