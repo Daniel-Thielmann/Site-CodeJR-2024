@@ -3,7 +3,7 @@ import { RichText } from "@/components/RichText/rich-text";
 import { getBlog1 } from "@/server/db/query/blog/query";
 import { Metadata } from "next";
 
-// Tipagem explícita para os parâmetros
+// Tipagem para os parâmetros
 type PageProps = {
   params: {
     id: string;
@@ -11,10 +11,12 @@ type PageProps = {
   searchParams?: Record<string, string | string[]>;
 };
 
-// Função para gerar metadados dinâmicos com base no blog
+// Função para gerar metadados dinâmicos
 export async function generateMetadata({
   params,
-}: PageProps): Promise<Metadata> {
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   const blog1 = await getBlog1(params.id);
 
   return {
@@ -27,7 +29,7 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: Awaited<Promise<{ id: string }>>;
+  params: { id: string }; // Ajuste explícito
 }) {
   const blog1 = await getBlog1(params.id);
 
