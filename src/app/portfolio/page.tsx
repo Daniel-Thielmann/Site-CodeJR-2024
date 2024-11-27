@@ -7,12 +7,31 @@ import {
 } from "@/server/db/query/portifolio/query";
 
 interface PortfolioProps {
-  searchParams?: Record<string, string | undefined>; // Torne opcional
+  searchParams?:
+    | Record<string, string | string[] | undefined>
+    | Promise<Record<string, string | string[] | undefined>>;
+}
+
+interface PortifolioItem {
+  id: string;
+  name: string;
+  empresa: string;
+  imagem: { url: string };
+  gerentes: string[];
+  projetistas: string[];
 }
 
 export default async function Portfolio({ searchParams }: PortfolioProps) {
-  // Garantir que o parâmetro "page" seja um número válido
-  const page = parseInt(searchParams?.page || "1", 10);
+  const resolvedSearchParams =
+    searchParams && "then" in searchParams ? await searchParams : searchParams;
+
+  const page = parseInt(
+    Array.isArray(resolvedSearchParams?.page)
+      ? resolvedSearchParams.page[0]
+      : resolvedSearchParams?.page || "1",
+    10
+  );
+
   const offset = (isNaN(page) || page < 1 ? 0 : page - 1) * cardPerPage;
 
   const [portifolio, portifolioCount] = await Promise.all([
@@ -26,15 +45,15 @@ export default async function Portfolio({ searchParams }: PortfolioProps) {
     <div className="bg-gradiente-portifolio gap-12 flex flex-col items-center justify-center min-h-[69vh] pt-8 pb-8 flex-grow">
       <div className="flex flex-grow w-full gap-x-[8%] ml-5 mr-5 gap-y-8 flex-wrap justify-center items-center h-full">
         {portifolio.length > 0 ? (
-          portifolio.map((item) => (
+          portifolio.map((item: PortifolioItem) => (
             <PortifolioCard
               key={item.id}
               link={`/individualport/${item.id}`}
               title={item.name}
               empresa={item.empresa}
               image={item.imagem.url}
-              gerente={item.gerentes}
-              projetistas={item.projetistas}
+              gerente={item.gerentes.join(", ")}
+              projetistas={item.projetistas.join(", ")}
             />
           ))
         ) : (

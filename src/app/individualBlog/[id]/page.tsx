@@ -5,18 +5,13 @@ import { Metadata } from "next";
 
 // Tipagem para os parâmetros
 type PageProps = {
-  params: {
-    id: string;
-  };
-  searchParams?: Record<string, string | string[]>;
+  params: any; // Usando `any` para flexibilizar o tipo
 };
 
 // Função para gerar metadados dinâmicos
 export async function generateMetadata({
   params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+}: PageProps): Promise<Metadata> {
   const blog1 = await getBlog1(params.id);
 
   return {
@@ -26,11 +21,7 @@ export async function generateMetadata({
 }
 
 // Componente principal da página
-export default async function Page({
-  params,
-}: {
-  params: { id: string }; // Ajuste explícito
-}) {
+export default async function Page({ params }: PageProps) {
   const blog1 = await getBlog1(params.id);
 
   return (

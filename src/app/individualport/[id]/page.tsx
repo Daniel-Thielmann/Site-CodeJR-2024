@@ -1,10 +1,9 @@
 import VisIndividual from "@/components/VisIndividual";
 import { getPortifolio1 } from "@/server/db/query/portifolio/query";
-import { RichText } from "@/components/RichText/rich-text";
+import { RichText } from "@/components/RichText/rich-text"; // Certifique-se de que o caminho está correto
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: any }) {
   const portfolio1 = await getPortifolio1(params.id);
-  console.log(portfolio1);
 
   return (
     <div>
@@ -13,8 +12,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         description={<RichText content={portfolio1.description.raw} />}
         empresa={portfolio1.empresa}
         image={portfolio1.imagem.url}
-        gerente={portfolio1.gerentes}
-        projetistas={portfolio1.projetistas}
+        gerente={portfolio1.gerentes.join(", ")}
+        projetistas={portfolio1.projetistas.join(", ")}
       />
     </div>
   );

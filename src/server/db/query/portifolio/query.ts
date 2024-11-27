@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import { cardPerPage } from "@/lib/utils";
 import { ElementNode } from "@graphcms/rich-text-types";
 
-type portifolioQuery = {
+// Tipagem para os dados de um portfólio
+type PortifolioQuery = {
   empresa: string;
   id: string;
   name: string;
@@ -18,9 +19,11 @@ type portifolioQuery = {
       children: ElementNode[];
     };
   };
-  gerentes: string;
-  projetistas: string;
+  gerentes: string[]; // Atualizado para ser compatível com PortifolioItem
+  projetistas: string[]; // Atualizado para ser compatível com PortifolioItem
 };
+
+// Query para obter portfólios paginados
 const GET_PORTIFOLIO = gql`
   query Portifolio($skip: Int, $cardPerPage: Int!) {
     portifolios(skip: $skip, first: $cardPerPage) {
@@ -35,6 +38,8 @@ const GET_PORTIFOLIO = gql`
     }
   }
 `;
+
+// Query para contar o total de portfólios
 const GET_PORTIFOLIO_COUNT = gql`
   query PortifolioCount {
     portifoliosConnection {
@@ -45,6 +50,7 @@ const GET_PORTIFOLIO_COUNT = gql`
   }
 `;
 
+// Query para obter detalhes de um portfólio
 const GET_PORTIFOLIO1 = gql`
   query Portifolio($id: ID!) {
     portifolio(where: { id: $id }) {
@@ -64,9 +70,10 @@ const GET_PORTIFOLIO1 = gql`
   }
 `;
 
+// Função para buscar portfólios paginados
 export async function getPortifolio(
   skip: number = 0
-): Promise<portifolioQuery[]> {
+): Promise<PortifolioQuery[]> {
   try {
     const client = getClient();
     const { data } = await client.query({
@@ -75,18 +82,19 @@ export async function getPortifolio(
       context: {
         fetchOptions: {
           next: {
-            revalidate: 60,
+            revalidate: 60, // Cache de 60 segundos
           },
         },
       },
     });
     return data.portifolios;
   } catch (error) {
-    console.error("Error fetching portifolio", error);
+    console.error("Error fetching portifolio:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }
 
+// Função para buscar o total de portfólios
 export async function getPortifolioCount(): Promise<number> {
   try {
     const client = getClient();
@@ -95,19 +103,20 @@ export async function getPortifolioCount(): Promise<number> {
       context: {
         fetchOptions: {
           next: {
-            revalidate: 60,
+            revalidate: 60, // Cache de 60 segundos
           },
         },
       },
     });
     return data.portifoliosConnection.aggregate.count || 0;
   } catch (error) {
-    console.error("Error fetching contador", error);
+    console.error("Error fetching portifolio count:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }
 
-export async function getPortifolio1(id: string): Promise<portifolioQuery> {
+// Função para buscar detalhes de um portfólio
+export async function getPortifolio1(id: string): Promise<PortifolioQuery> {
   try {
     const client = getClient();
     const { data } = await client.query({
@@ -116,14 +125,14 @@ export async function getPortifolio1(id: string): Promise<portifolioQuery> {
       context: {
         fetchOptions: {
           next: {
-            revalidate: 60,
+            revalidate: 60, // Cache de 60 segundos
           },
         },
       },
     });
     return data.portifolio;
   } catch (error) {
-    console.error("Error fetching portifolio", error);
+    console.error("Error fetching portifolio:", error);
+    redirect("/internal-server-error");
   }
-  redirect("/internal-server-error");
 }

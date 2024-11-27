@@ -1,8 +1,11 @@
+// types/global.d.ts
 import "next";
 
 declare module "next" {
   export interface PageProps {
-    params: { id: string }; // Garante que params é um objeto síncrono
-    searchParams?: Record<string, string | string[]>;
+    params?: Record<string, string | undefined>;
+    searchParams?:
+      | Record<string, string | string[] | undefined>
+      | Promise<Record<string, string | string[] | undefined>>;
   }
 }
