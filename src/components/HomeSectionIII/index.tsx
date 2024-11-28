@@ -1,24 +1,51 @@
 "use client";
 
-import { feedbackQuery, getFeedback } from "@/server/db/query/feedback/query";
 import FeedbackCard from "../FeedbackCard";
 import useEmblaCarousel from "embla-carousel-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RichText } from "@/components/RichText/rich-text";
+import { RichTextContent } from "@graphcms/rich-text-types";
+
+// Dados mockados para feedbacks no formato esperado
+const mockFeedbacks = [
+  {
+    name: "Cliente 1",
+    feedbacks: {
+      raw: {
+        children: [
+          {
+            type: "paragraph",
+            children: [
+              {
+                text: "Este é o feedback do cliente 1.",
+              },
+            ],
+          },
+        ],
+      } as RichTextContent,
+    },
+  },
+  {
+    name: "Cliente 2",
+    feedbacks: {
+      raw: {
+        children: [
+          {
+            type: "paragraph",
+            children: [
+              {
+                text: "Este é o feedback do cliente 2.",
+              },
+            ],
+          },
+        ],
+      } as RichTextContent,
+    },
+  },
+];
 
 export default function HeroSectionIII() {
-  const [feedbacks, setFeedbacks] = useState<feedbackQuery[]>([]);
-
-  useEffect(() => {
-    const fetchFeedbacks = async () => {
-      const feedbackData = await getFeedback();
-      if (feedbackData) {
-        setFeedbacks(feedbackData);
-      }
-    };
-
-    fetchFeedbacks();
-  }, []);
+  const [feedbacks] = useState(mockFeedbacks);
 
   const [emblaRefMobile] = useEmblaCarousel({
     loop: false,
